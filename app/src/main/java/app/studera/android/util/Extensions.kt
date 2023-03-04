@@ -48,3 +48,7 @@ fun String.zonedDateTime(): ZonedDateTime{
     val date = ZonedDateTime.parse(this, formatter)
     return date.withZoneSameInstant(zoneId)
 }
+
+fun ZonedDateTime.localHM(): String{
+    return "${this.hour}:${this.minute.formatTime()}"
+}

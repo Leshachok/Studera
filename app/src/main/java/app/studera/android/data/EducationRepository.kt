@@ -56,6 +56,72 @@ class EducationRepository {
                 locationDescription = null,
                 number = 3
             ),
+            Lesson(
+                start = "2023-02-27T08:00:01.004Z",
+                end = "2023-03-05T09:50:01.004Z",
+                title = "Сучасні технології програмування на перфокартах",
+                type = LessonType.PRACTICE,
+                lecturer = "О. О. Арсірій",
+                link = null,
+                building = Building.IEE,
+                locationDescription = null,
+                number = 1
+            ),
+            Lesson(
+                start = "2023-02-28T08:00:01.004Z",
+                end = "2023-03-05T09:50:01.004Z",
+                title = "Сучасні технології програмування на перфокартах",
+                type = LessonType.LECTURE,
+                lecturer = "О. О. Арсірій",
+                link = null,
+                building = Building.IEE,
+                locationDescription = null,
+                number = 1
+            ),
+            Lesson(
+                start = "2023-03-01T10:05:01.004Z",
+                end = "2023-03-05T11:40:01.004Z",
+                title = "Сучасні технології програмування на перфокартах",
+                type = LessonType.PRACTICE,
+                lecturer = "О. О. Арсірій",
+                link = null,
+                building = Building.ICS,
+                locationDescription = null,
+                number = 2
+            ),
+            Lesson(
+                start = "2023-03-02T10:05:01.004Z",
+                end = "2023-03-05T11:40:01.004Z",
+                title = "Сучасні технології програмування на перфокартах",
+                type = LessonType.PRACTICE,
+                lecturer = "О. О. Арсірій",
+                link = null,
+                building = Building.ICS,
+                locationDescription = null,
+                number = 2
+            ),
+            Lesson(
+                start = "2023-03-03T10:05:01.004Z",
+                end = "2023-03-05T11:40:01.004Z",
+                title = "Сучасні технології програмування на перфокартах",
+                type = LessonType.PRACTICE,
+                lecturer = "О. О. Арсірій",
+                link = null,
+                building = Building.ICS,
+                locationDescription = null,
+                number = 2
+            ),
+            Lesson(
+                start = "2023-03-04T10:05:01.004Z",
+                end = "2023-03-05T11:40:01.004Z",
+                title = "Сучасні технології програмування на перфокартах",
+                type = LessonType.PRACTICE,
+                lecturer = "О. О. Арсірій",
+                link = null,
+                building = Building.ICS,
+                locationDescription = null,
+                number = 2
+            ),
         )
     }
 }
