@@ -1,6 +1,8 @@
 package app.studera.android.util
 
 import android.content.Context
+import android.content.res.Resources
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
@@ -9,7 +11,6 @@ import java.time.Month
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.util.*
 
@@ -36,6 +37,11 @@ internal fun Context.getColorCompat(@ColorRes color: Int) =
 fun Int.formatTime(): String{
     return if (this < 10) "0$this" else "$this"
 }
+
+val Int.toPx get() = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    this.toFloat(),
+    Resources.getSystem().displayMetrics).toInt()
 
 
 fun String.zonedDateTime(): ZonedDateTime{

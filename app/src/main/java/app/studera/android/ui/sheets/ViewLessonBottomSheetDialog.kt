@@ -11,7 +11,6 @@ import app.studera.android.databinding.BottomsheetLessonViewBinding
 import app.studera.android.model.Lesson
 import app.studera.android.util.LessonType
 import app.studera.android.util.formatTime
-import app.studera.android.util.listeners.LessonManager
 import app.studera.android.util.zonedDateTime
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

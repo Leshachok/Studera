@@ -16,6 +16,15 @@
         <item name="fontFamily">@font/e_ukraine_regular</item>
     </style>
 
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">?colorSurface</item>
+        <item name="boxStrokeColor">@color/color_grey04</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+    </style>
+
+    <style name="Widget.App.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
 
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="itemActiveIndicatorStyle">@null</item>
@@ -29,6 +38,10 @@
     <style name="ThemeOverlay.App.BottomNavigationView" parent="">
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurfaceVariant">@color/color_grey03</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <item name="colorOnSurface">?colorPrimary</item>
     </style>
 
     <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Assist">
