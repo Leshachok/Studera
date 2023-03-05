@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "836092232015",
+    "project_id": "studera-bb317",
+    "storage_bucket": "studera-bb317.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836092232015:android:63fd3212b761e0f1db053a",
+        "android_client_info": {
+          "package_name": "app.studera.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836092232015-rcq2898m1otf81egnsgvmlijn71ksom5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.studera.android",
+            "certificate_hash": "6393f91dbc3ab5b951118c975213ab265dbc55ba"
+          }
+        },
+        {
+          "client_id": "836092232015-sbcpklnk53e5dqb2i8tdmbuup19o26td.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW43MWJUdVgJ0PcEFiiq2m2ktNhkHIq8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836092232015-sbcpklnk53e5dqb2i8tdmbuup19o26td.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

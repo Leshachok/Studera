@@ -1,19 +1,13 @@
 package app.studera.android.ui.sheets
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import app.studera.android.R
-import app.studera.android.databinding.BottomsheetLessonViewBinding
 import app.studera.android.databinding.BottomsheetPlaceCreateBinding
-import app.studera.android.model.Lesson
-import app.studera.android.util.LessonType
-import app.studera.android.util.formatTime
 import app.studera.android.util.listeners.PlaceManager
-import app.studera.android.util.zonedDateTime
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class PlaceCreateBottomSheetDialog(private val placeManager: PlaceManager)
@@ -73,7 +67,12 @@ class PlaceCreateBottomSheetDialog(private val placeManager: PlaceManager)
 
         binding.button.setOnClickListener {
             val text = binding.eventTitleEditText.text.toString()
+            if(text.length < 4) {
+                Toast.makeText(requireContext(), "Заповніть назву!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             placeManager.onTextAdded(text)
+
             dismiss()
         }
         return binding.root

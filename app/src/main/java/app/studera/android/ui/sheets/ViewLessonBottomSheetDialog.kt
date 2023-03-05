@@ -1,6 +1,8 @@
 package app.studera.android.ui.sheets
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,8 +34,18 @@ class ViewLessonBottomSheetDialog(private val lesson: Lesson)
         fillDate()
         fillType()
 
-        binding.button.setOnClickListener {
-            dismiss()
+        if(lesson.link.isNullOrEmpty()){
+            binding.button.visibility = View.GONE
+        }else{
+            val link = lesson.link
+            binding.textViewLink.text = link
+
+            binding.button.setOnClickListener {
+                val uri = Uri.parse(link)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                requireContext().startActivity(intent)
+                return@setOnClickListener
+            }
         }
         return binding.root
     }

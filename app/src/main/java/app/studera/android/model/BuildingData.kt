@@ -1,8 +1,9 @@
 package app.studera.android.model
 
+import app.studera.android.util.Building
 import com.google.android.gms.maps.model.LatLng
 
 data class BuildingData (
-    val location: LatLng,
+    val building: Building,
     val lessons: List<Lesson>
 )

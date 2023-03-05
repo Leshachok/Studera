@@ -62,8 +62,8 @@ class EducationRepository {
                 title = "Сучасні технології програмування на перфокартах",
                 type = LessonType.PRACTICE,
                 lecturer = "О. О. Арсірій",
-                link = null,
-                building = Building.IEE,
+                link = "https://us06web.zoom.us/j/84008858525?pwd=SHVkWVdEOG5RbUZrblhnam14Z0FKdz09",
+                building = null,
                 locationDescription = null,
                 number = 1
             ),

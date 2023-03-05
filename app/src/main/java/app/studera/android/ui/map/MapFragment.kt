@@ -11,7 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.studera.android.R
 import app.studera.android.databinding.FragmentMapBinding
+import app.studera.android.model.BuildingData
+import app.studera.android.ui.adapter.CustomInfoWindowAdapter
 import app.studera.android.ui.sheets.PlaceCreateBottomSheetDialog
+import app.studera.android.util.displayText
 import app.studera.android.util.listeners.PlaceManager
 import app.studera.android.util.localHM
 import app.studera.android.util.toPx
@@ -26,6 +29,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 
 class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
 
@@ -62,34 +68,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
 
         lifecycleScope.launch {
             viewModel.buildingsFlow.collectLatest {
-                it.forEach { b ->
-                    val title = when(b.lessons.size) {
-                        1 -> {
-                            val lesson = b.lessons.first()
-                            val start = lesson.start.zonedDateTime().localHM()
-                            val end = lesson.end.zonedDateTime().localHM()
-                            "$start - $end"
-                        }
-                        else -> {
-                            val lessons = b.lessons
-                            var text = ""
-                            lessons.forEachIndexed { index, lesson,  ->
-                                val start = lesson.start.zonedDateTime().localHM()
-                                val end = lesson.end.zonedDateTime().localHM()
-                                text += "$start - $end"
-                            }
-                            text += ""
-                            text
-                        }
-                    }
-                    markers.add(
-                        MarkerOptions()
-                            .position(b.location)
-                            .title("тут помещается одна строка")
-                            .snippet("и тут еще одна")
-                    )
-                }
+                fillUI(it)
             }
+        }
+
+        viewModel.dateLiveData.observe(viewLifecycleOwner){
+            val uaDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                .withLocale(Locale.forLanguageTag("uk"))
+
+            val text = it.format(uaDateFormatter)
+            binding.topAppBar.title = text
         }
 
         binding.button.setOnClickListener {
@@ -107,8 +95,31 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
             isInSandBoxMode = false
         }
 
-
         return binding.root
+    }
+
+    private fun fillUI(it: List<BuildingData>) {
+
+        it.forEach {
+            val building = it.building
+            val lessons = it.lessons
+            var text = "${building.title}\n"
+            lessons.forEachIndexed { index, lesson,  ->
+                val start = lesson.start.zonedDateTime().localHM()
+                val end = lesson.end.zonedDateTime().localHM()
+                text += "Пара о $start - $end"
+                if(index != lessons.lastIndex) text += "\n\n"
+            }
+
+            val bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_marker_building)
+            val resized = Bitmap.createScaledBitmap(bitmap, (32).toPx, (32).toPx, false)
+            markers.add(
+                MarkerOptions()
+                    .position(it.building.location)
+                    .title(text)
+                    .icon(BitmapDescriptorFactory.fromBitmap(resized))
+            )
+        }
     }
 
     private fun drawNewMarker() {
@@ -135,15 +146,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
         map = p0
         isMapReady = true
 
-        markers.forEach { map.addMarker(it) }
+        markers.forEach { marker ->
+            val m = map.addMarker(marker)
+            m?.showInfoWindow()
+        }
 
         val latLng = LatLng(46.460054, 30.751629)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
 
-        map.setOnMarkerClickListener { m ->
-            m.showInfoWindow()
-            true
-        }
+
+        val adapter = CustomInfoWindowAdapter(requireContext())
+        map.setInfoWindowAdapter(adapter)
     }
 
     override fun onIconChanged(drawable: Int) {
