@@ -14,7 +14,6 @@ import app.studera.android.databinding.FragmentMapBinding
 import app.studera.android.model.BuildingData
 import app.studera.android.ui.adapter.CustomInfoWindowAdapter
 import app.studera.android.ui.sheets.PlaceCreateBottomSheetDialog
-import app.studera.android.util.displayText
 import app.studera.android.util.listeners.PlaceManager
 import app.studera.android.util.localHM
 import app.studera.android.util.toPx
@@ -40,7 +39,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
 
     private val viewModel: MapViewModel by viewModels()
 
-    private val markers = mutableListOf<MarkerOptions>()
+    private val currentMarkers = mutableListOf<Marker>()
 
     private var isMapReady = false
 
@@ -76,8 +75,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
             val uaDateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
                 .withLocale(Locale.forLanguageTag("uk"))
 
-            val text = it.format(uaDateFormatter)
-            binding.topAppBar.title = text
+            val text = it?.format(uaDateFormatter)
+            binding.title.text = text?.let {
+                "Ваші розклад"
+            } ?: run {
+                "Карта кампусу"
+            }
         }
 
         binding.button.setOnClickListener {
@@ -95,12 +98,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
             isInSandBoxMode = false
         }
 
+        binding.filter.setOnCheckedChangeListener { _, b ->
+            if(b){
+                viewModel.setDate()
+            }else viewModel.setDate(today = false)
+        }
+
         return binding.root
     }
 
-    private fun fillUI(it: List<BuildingData>) {
+    private fun fillUI(buildings: List<BuildingData>) {
+        currentMarkers.forEach { it.remove() }
 
-        it.forEach {
+        buildings.forEach {
             val building = it.building
             val lessons = it.lessons
             var text = "${building.title}\n"
@@ -113,12 +123,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
 
             val bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_marker_building)
             val resized = Bitmap.createScaledBitmap(bitmap, (32).toPx, (32).toPx, false)
-            markers.add(
-                MarkerOptions()
-                    .position(it.building.location)
-                    .title(text)
-                    .icon(BitmapDescriptorFactory.fromBitmap(resized))
+            val markerOptions = MarkerOptions()
+                .position(it.building.location)
+                .title(text)
+                .icon(BitmapDescriptorFactory.fromBitmap(resized))
+
+            val m = map.addMarker(
+                markerOptions
             )
+            if (m != null) {
+                currentMarkers.add(m)
+            }
         }
     }
 
@@ -146,9 +161,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
         map = p0
         isMapReady = true
 
-        markers.forEach { marker ->
-            val m = map.addMarker(marker)
-            m?.showInfoWindow()
+        viewModel.setDate(today = false)
+
+        lifecycleScope.launch {
+            viewModel.buildingsFlow.collectLatest {
+                fillUI(it)
+            }
         }
 
         val latLng = LatLng(46.460054, 30.751629)

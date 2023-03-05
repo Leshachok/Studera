@@ -12,7 +12,7 @@ enum class Building {
         override val title: String = "Головний корпус"
         },
     ADMINISTRATION{
-        override val location: LatLng = LatLng(46.4601194,30.7507463)
+        override val location: LatLng = LatLng(46.4610468,30.7508504)
         override val title: String = "Адміністрація"
     },
     ICS{
@@ -24,7 +24,7 @@ enum class Building {
         override val title: String = "Корпус ІЕЕ"
     },
     RGF{
-        override val location: LatLng = LatLng(46.4601194,30.7507463)
+        override val location: LatLng = LatLng(46.4608667,30.7527171)
         override val title: String = "Корпус РГФ"
     };
 

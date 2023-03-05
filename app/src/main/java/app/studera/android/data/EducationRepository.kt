@@ -21,6 +21,10 @@ class EducationRepository {
         }.sortedBy { it.number }
     }
 
+    fun getBuildings(): List<Building>{
+        return listOf(Building.ICS, Building.IEE, Building.RGF, Building.ADMINISTRATION, Building.MAIN)
+    }
+
     init {
         lessons = listOf(
             Lesson(

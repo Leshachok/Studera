@@ -26,11 +26,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="Сьогоднішна дата"
             app:titleTextAppearance="@style/Heading2"
             app:titleCentered="false"
-            app:titleMarginStart="22dp"
+            app:titleMarginStart="12dp"
             app:titleTextColor="?android:textColorPrimary">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Heading2"/>
 
             <ImageView
                 android:id="@+id/close"
@@ -39,7 +44,16 @@
                 android:src="@drawable/ic_close"
                 android:layout_gravity="end"
                 android:layout_marginEnd="19dp"
-                android:visibility="invisible"/>
+                android:visibility="visible"/>
+
+            <CheckBox
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/ic_filter"
+                android:layout_gravity="end"
+                android:layout_marginEnd="12dp"
+                android:visibility="visible"/>
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
