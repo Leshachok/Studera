@@ -54,6 +54,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
 
     private lateinit var map: GoogleMap
 
+    private lateinit var buildingBitmap: Bitmap
+    private lateinit var foodBitmap: Bitmap
+    private lateinit var beerBitmap: Bitmap
+    private lateinit var electricityBitmap: Bitmap
+    private lateinit var placeBitmap: Bitmap
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        loadBitmaps()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,7 +98,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
             if(!isMapReady) return@setOnClickListener
             isInSandBoxMode = if(!isInSandBoxMode){
                 true
-            } else{
+            } else {
                 drawNewMarker()
                 openBottomSheet()
                 false
@@ -105,6 +116,23 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
         }
 
         return binding.root
+    }
+
+    private fun loadBitmaps(){
+        var bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_marker_building)
+        buildingBitmap = Bitmap.createScaledBitmap(bitmap, (32).toPx, (32).toPx, false)
+
+        bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_custom_place)
+        placeBitmap = Bitmap.createScaledBitmap(bitmap, (40).toPx, (59).toPx, false)
+
+        bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_marker_food)
+        foodBitmap = Bitmap.createScaledBitmap(bitmap, (56).toPx, (70).toPx, false)
+
+        bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_marker_beer)
+        beerBitmap = Bitmap.createScaledBitmap(bitmap, (56).toPx, (70).toPx, false)
+
+        bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_marker_electricity)
+        electricityBitmap = Bitmap.createScaledBitmap(bitmap, (56).toPx, (70).toPx, false)
     }
 
     private fun fillUI(buildings: List<BuildingData>) {
@@ -138,12 +166,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
     }
 
     private fun drawNewMarker() {
-        val bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.map_custom_place)
-        val resized = Bitmap.createScaledBitmap(bitmap, (40).toPx, (59).toPx, false)
         newMarker = map.addMarker(
             MarkerOptions()
                 .position(map.cameraPosition.target)
-                .icon(BitmapDescriptorFactory.fromBitmap(resized))
+                .icon(BitmapDescriptorFactory.fromBitmap(placeBitmap))
         )
     }
 
@@ -178,9 +204,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, PlaceManager {
     }
 
     override fun onIconChanged(drawable: Int) {
-        val bitmap = BitmapFactory.decodeResource(requireContext().resources, drawable)
-        val resized = Bitmap.createScaledBitmap(bitmap, (56).toPx, (70).toPx, false)
-        newMarker?.setIcon(BitmapDescriptorFactory.fromBitmap(resized))
+        val bitmap = when(drawable){
+            R.drawable.map_marker_food -> foodBitmap
+            R.drawable.map_marker_beer -> beerBitmap
+            else -> electricityBitmap
+        }
+        newMarker?.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap))
     }
 
     override fun onTextAdded(text: String) {
