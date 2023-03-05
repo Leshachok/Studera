@@ -36,6 +36,8 @@ class ViewLessonBottomSheetDialog(private val lesson: Lesson)
 
         if(lesson.link.isNullOrEmpty()){
             binding.button.visibility = View.GONE
+            binding.textView1.text = "Локація"
+            binding.textViewLink.text = "${lesson.building?.title}, ауд. 213ф"
         }else{
             val link = lesson.link
             binding.textViewLink.text = link
